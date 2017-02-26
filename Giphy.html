@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="utf-8">
+ <title>Giphy API</title>
+
+<style type="text/css">
+
+   .funny {
+     float: left;
+     padding: 10px;
+   }
+
+   .gif{
+    padding: 10px;
+    color: black;
+    margin: 10px;
+    background-color: yellow;
+
+   }
+ 
+  body{
+    background-color: black;
+  }
+
+  #gif-search{
+    background-color: yellow;
+    margin: auto;
+    width: 150px;
+  }
+
+  #add-gif{
+    background-color: yellow;
+    color: black;
+    padding: 5px;
+    margin: auto;
+    width: 153px;
+    margin-top: 5px;
+  }
+
+  #gif-form{
+    margin: auto;
+    width: 150px;
+  }
+
+</style>
+
+</head>
+
+<body>
+ 
+<form id="gif-form">
+      <input type="text" id="gif-search"><br>
+      <input id="add-gif" type="submit" value="Giphy Search">
+</form>
+
+<div id ="two"></div>
+<div id ="place"></div>
+
+
+
+ <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+ <script type="text/javascript">
+  
+  var topics = ["Archer", "Peter Griffin", "Homer Simpson", "Stan Smith"]
+
+ for (var i = 0; i < topics.length; i++) {
+        //console.log (topics[i]);
+
+       var a = $("<button>")
+       a.addClass("gif");
+       a.attr("data", topics[i]);
+       a.text(topics[i]);
+       $("#two").append(a);
+      
+ }
+    $("button").on("click", function() {
+    $("#place").empty();
+
+      var toon = $(this).attr("data");
+      var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
+        toon + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).done(function(response) {
+       
+        var results = response.data
+       
+         for (var i = 0; i < results.length; i++) {
+
+           var funny = $("<div class='funny'>");
+            
+            var p = $("<p>");
+
+            var p = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + results[i].rating);
+
+            var show = $("<img>");
+            
+           show.attr("src", results[i].images.fixed_height_still.url);
+
+            funny.prepend(p);
+            funny.prepend(show);
+
+            $("#place").prepend(funny);
+          }
+      
+      $("#place").on("click", function(){
+
+      show.attr("src",results[i].images.fixed_height.url);
+         
+    });
+  });
+});
+
+
+      
+
+</script>
+
+</body>
+
+</html>
